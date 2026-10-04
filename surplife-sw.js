@@ -2,7 +2,7 @@
 
 // Bump the version when releasing changes to any cached asset.
 const CACHE_PREFIX = 'surplife-shell-';
-const CACHE_NAME = CACHE_PREFIX + 'v55';
+const CACHE_NAME = CACHE_PREFIX + 'v57';
 const base = new URL('./', self.location.href);
 const appURL = new URL('Surplife.html', base).href;
 const assets = [

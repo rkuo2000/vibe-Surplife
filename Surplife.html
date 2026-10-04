@@ -163,7 +163,7 @@ function rgbToHue(rgb){
 function rgbWireColor(rgb,brightness,energy=1){const c=rgbToHue(rgb);return [Math.round(c.hue*255/360),Math.round(c.value*brightness/100*255*energy)];}
 function colorPayload(energy=1){return [0xe2,0x0b,...rgbWireColor(rgbColor(),number('brightness'),energy)];}
 function selectedPayload(){if(mode==='effect')return [0xe0,2,0,number('effect'),number('speed'),number('brightness')];if(mode==='music')return musicPayload();return colorPayload();}
-async function apply(){stopAudio();if(mode==='matrix')await paintMatrixFrame(matrixFrame());else if(mode==='text'&&$('textDisplay').value!=='static'){await startTextAnimation();return;}else if(['text','pic'].includes(mode))await paintFrame(contentFrame());else await send(selectedPayload(),mode);message(demo?'Demo preview updated. No Bluetooth data sent.':'Command written. Device confirmation appears in the status panel when available.');}
+async function apply(){stopAudio();if(mode==='matrix')await paintMatrixFrame(matrixFrame());else if(mode==='text'&&$('textDisplay').value!=='static'){await startTextAnimation();return;}else if(mode==='text')await paintFrame(contentFrame(),()=>true,false,true);else if(mode==='pic')await paintFrame(contentFrame());else await send(selectedPayload(),mode);message(demo?'Demo preview updated. No Bluetooth data sent.':'Command written. Device confirmation appears in the status panel when available.');}
 async function run(action){try{await action();}catch(error){message(error.message,true);log('ERROR',error.message);}}
 function updatePreview(){
  $('preview').classList.toggle('mirrored',$('mirrorDisplay').checked);
@@ -404,7 +404,7 @@ function contentFrame(kind=mode,tintPicture=false) {
   const text=$('textInput').value;if(!text.trim()) throw new Error('Enter a message to preview.');
   const lines=text.split('\n');
   if(lines.length>3) throw new Error('Use up to 3 lines of text.');
-  context.fillStyle=$('color').value;context.textAlign='center';context.textBaseline='middle';
+  context.fillStyle='#fff';context.textAlign='center';context.textBaseline='middle';
   let size=rows*.9/(lines.length*1.1);context.font=`bold ${size}px sans-serif`;
   const width=Math.max(...lines.map(line=>context.measureText(line).width));
   if(width>columns) size*=columns/width;
@@ -418,13 +418,16 @@ function contentFrame(kind=mode,tintPicture=false) {
   const width=iw*scale,height=ih*scale;context.drawImage(pictureImage,(columns-width)/2,(rows-height)/2,width,height);
  }
  const rgba=context.getImageData(0,0,columns,rows).data;
- const pixels=[],tint=kind==='pic'&&tintPicture?rgbColor():null;
+ const pixels=[],tint=kind==='pic'&&tintPicture?rgbColor():null,textColor=kind==='text'?rgbColor():null;
  for(let i=0;i<rgba.length;i+=4) {
   const rgb=[rgba[i],rgba[i+1],rgba[i+2]];
-  pixels.push(tint?tint.map(v=>Math.round(v*Math.max(...rgb)/255)):rgb);
+  pixels.push(textColor?textPixel(rgba[i],textColor):tint?tint.map(v=>Math.round(v*Math.max(...rgb)/255)):rgb);
  }
  return {columns,rows,pixels};
 }
+// Text is drawn white for coverage; covered pixels use the exact selected color,
+// so the curtain receives the same hue as Color instead of anti-aliased edge hues.
+function textPixel(coverage,rgb){return coverage>=102?rgb.slice():[0,0,0];}
 function scrollingTextSource(){
  const {columns,rows}=gridSize(),text=$('textInput').value,lines=text.split('\n');
  if(!text.trim())throw Error('Enter a message to preview.');
@@ -434,10 +437,10 @@ function scrollingTextSource(){
  context.font='bold '+size+'px sans-serif';
  const width=Math.max(columns,Math.ceil(Math.max(...lines.map(line=>context.measureText(line).width)))+2);
  canvas.width=width;canvas.height=rows;context.fillStyle='#000';context.fillRect(0,0,width,rows);
- context.font='bold '+size+'px sans-serif';context.textAlign='left';context.textBaseline='middle';context.fillStyle=$('color').value;
+ context.font='bold '+size+'px sans-serif';context.textAlign='left';context.textBaseline='middle';context.fillStyle='#fff';
  lines.forEach((line,index)=>context.fillText(line,1,rows/2+(index-(lines.length-1)/2)*lineHeight));
- const data=context.getImageData(0,0,width,rows).data,pixels=[];
- for(let i=0;i<data.length;i+=4)pixels.push([data[i],data[i+1],data[i+2]]);
+ const data=context.getImageData(0,0,width,rows).data,pixels=[],rgb=rgbColor();
+ for(let i=0;i<data.length;i+=4)pixels.push(textPixel(data[i],rgb));
  return {columns,rows,width,pixels};
 }
 function textWindow(source,offset){
@@ -472,7 +475,7 @@ async function startTextAnimation(){
   $('textAnimationStatus').textContent=(ready?(demo?'Animating · demo · ':'Animating · sending to curtain · '):'Animating · preview only · ')+(style==='scroll'?'scrolling text':'flashing text');
   try{
    // Await each frame so slow BLE writes cannot build an animation backlog.
-   if(ready)await paintFrame(frame,()=>session===textAnimationSession);
+   if(ready)await paintFrame(frame,()=>session===textAnimationSession,false,true);
   }catch(error){
    if(session===textAnimationSession){stopTextAnimation();message(error.message,true);$('textAnimationStatus').textContent='Animation stopped after a Bluetooth error.';}
    return;
@@ -711,7 +714,7 @@ function quantizedPaintFrame(frame,brightness=number('brightness'),animated=fals
  if(!Number.isInteger(frame.columns)||!Number.isInteger(frame.rows)||frame.columns<1||frame.rows<1||frame.columns*frame.rows>MAX_LEDS||frame.pixels.length!==frame.columns*frame.rows)throw Error('Invalid LED frame.');
  const hues=animated?8:16,levels=animated?3:15;
  const pixels=toWireOrder(frame.pixels,frame.columns,frame.rows,$('wiring').value).map(rgb=>{
-  if(animated&&fullColor)return rhythmWireColor(rgb,brightness);
+  if(fullColor==='rainbow')return rhythmWireColor(rgb,brightness);
   if(fullColor){
    const [hue,intensity]=rgbWireColor(rgb,brightness);
    // Painting reserves hue zero for erase; red uses the nearest paint hue, 01.
@@ -810,6 +813,8 @@ async function startRhythm() {
   const style=$('rhythmStyle').value;
   rhythmFlashContent=style==='flash-text'?contentFrame('text'):style==='flash-pic'?contentFrame('pic'):null;
   const rainbow=style!=='flash-text'&&style!=='flash-pic';
+  // Rainbow styles use fixed rhythm codes; Flashing Text sends the exact selected color.
+  const paintColor=rainbow?'rainbow':style==='flash-text';
   const pixel=rhythmUsesPixels();
   // Begin with the wave/ring shape; equalizer bars wait for audio.
   const initial=pixel?rhythmPixelFrame(0,0):null;
@@ -834,7 +839,7 @@ async function startRhythm() {
    player.addEventListener('error',()=>{if(session===rhythmSession){stopRhythm();message('Audio file could not be decoded. Choose another file.',true);}});await player.play();
   }
   if(session!==rhythmSession)return;
-  if(ready&&pixel) {await paintFrame(initial,()=>session===rhythmSession,true,rainbow);if(session!==rhythmSession)return;}
+  if(ready&&pixel) {await paintFrame(initial,()=>session===rhythmSession,true,paintColor);if(session!==rhythmSession)return;}
   rhythmActive=true;rhythmLastSend=-Infinity;rhythmPhase=0;
   const data=new Uint8Array(analyser.fftSize),spectrum=new Uint8Array(analyser.frequencyBinCount);let average=.015,envelope=0,sendPeak=0,lastBeat=-Infinity,lastTime=performance.now();
   const tick=()=>{
@@ -865,7 +870,7 @@ async function startRhythm() {
     rhythmWrite=run(async()=>{
      if(session!==rhythmSession)return;
      try {
-      if(pixel) await paintFrame(outgoing,()=>session===rhythmSession,true,rainbow);
+      if(pixel) await paintFrame(outgoing,()=>session===rhythmSession,true,paintColor);
       else await sendBatch([colorPayload(energy)],'Audio flash',()=>session===rhythmSession);
      } catch(error){rhythmActive=false;clearTimeout(rhythmTimer);throw error;}
     }).finally(()=>{rhythmFrameBusy=false;if(!rhythmActive&&session===rhythmSession){stopRhythm();$('rhythmStatus').textContent='Stopped after a Bluetooth error. Reconnect and start again.';}});
