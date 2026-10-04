@@ -1,0 +1,11 @@
+{
+  "name": "surplife",
+  "private": true,
+  "description": "Surplife curtain controller (static PWA). Dev tooling only.",
+  "scripts": {
+    "serve": "python3 -m http.server 8765 --bind 127.0.0.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

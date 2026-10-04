@@ -1,0 +1,33 @@
+{
+  "id": "./Surplife.html",
+  "name": "Surplife Curtain Controller",
+  "short_name": "Surplife",
+  "description": "Control your BLE LED curtain with colors, effects, and music.",
+  "lang": "en",
+  "start_url": "./Surplife.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101522",
+  "theme_color": "#101522",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./icons/surplife-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/surplife-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/surplife-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
