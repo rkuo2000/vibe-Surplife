@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101522">
+<meta name="application-name" content="Surplife">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Surplife">
+<link rel="manifest" href="./surplife.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/surplife-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/surplife-180.png">
+<title>Surplife · Curtain studio</title>
+<style>
+:root{color-scheme:dark;--bg:#101522;--panel:#1a2131;--line:#303a50;--text:#f2f5fc;--muted:#a6b2ca;--accent:#a9b9ff;--hue:265;--level:.8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#252c4a,transparent 55%),var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:36px 24px}header,.row{display:flex;align-items:center;justify-content:space-between;gap:16px}header{margin-bottom:30px}.brand{font-size:26px;font-weight:750;letter-spacing:-1px}.brand span{color:var(--accent)}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:2px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,44px);line-height:1.1;margin:12px 0}h2{font-size:20px;margin:0 0 18px}h3{font-size:15px}p{color:var(--muted)}button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:12px;background:#283249;color:var(--text);padding:11px 18px;font-weight:600}button.primary{background:var(--accent);border-color:var(--accent);color:#131b35}button:hover:enabled{filter:brightness(1.15)}button:disabled{opacity:.4;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #d4aaff;outline-offset:3px}.pill{padding:7px 12px;border:1px solid var(--line);border-radius:30px;font-size:13px;color:var(--muted)}.pill.live{color:#90e1ba;border-color:#39735b}.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;margin-top:26px}.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px}.preview{align-self:start;min-height:400px;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,hsl(var(--hue) 65% 17%),#0c101b 80%);display:flex;flex-direction:column;justify-content:flex-start}.curtain{display:grid;grid-template-columns:repeat(16,1fr);gap:9px;height:280px;margin:18px 6px}.strand{display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid #ffffff10;align-items:center}.led{width:5px;height:5px;background:var(--led-color,#6a00ff);border-radius:50%;box-shadow:0 0 10px var(--led-color,#6a00ff);opacity:var(--level)}.preview.effects .strand:nth-child(3n){filter:hue-rotate(80deg)}.preview.effects .strand:nth-child(3n+1){filter:hue-rotate(170deg)}.small{font-size:13px;color:var(--muted)}.tabs{display:flex;gap:5px;background:#111827;border-radius:13px;padding:5px;margin-bottom:24px}.tabs button{flex:1;padding:9px;border:0;background:transparent;color:var(--muted)}.tabs button[aria-selected=true]{background:#35415e;color:white}label{display:block;margin:18px 0 8px;color:var(--muted);font-size:14px}input[type=range]{width:100%;accent-color:var(--accent);margin:10px 0 18px}select,input[type=text],input[type=number]{width:100%;background:#111827;color:var(--text);border:1px solid var(--line);padding:10px;border-radius:10px}.swatches{display:flex;gap:12px;margin:14px 0 20px}.swatches button{width:34px;height:34px;border-radius:50%;padding:0;background:var(--swatch);border:3px solid #ffffff30}.value{color:var(--text);font-variant-numeric:tabular-nums}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.actions button{flex-grow:1}output{color:var(--text)}#message{margin:20px 0 0;padding:12px 16px;border-radius:12px;background:#202a40;color:#c6d3f0;overflow-wrap:anywhere}#message.error{color:#ffb4b4;background:#422733}details{margin-top:22px}summary{cursor:pointer;font-weight:600}details .inner{margin-top:20px}.settings{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}.check{display:flex;align-items:center;gap:9px}.check input{accent-color:var(--accent)}pre{font:12px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#0c111c;padding:16px;border-radius:12px;max-height:260px;overflow:auto;color:#b9c9e9}.status{margin-top:18px;color:var(--muted);font-size:13px}.status strong{color:#e1e7f6}a{color:var(--accent)}[hidden]{display:none!important}footer{margin-top:26px;color:var(--muted);font-size:12px}@media(max-width:740px){main{padding:22px 16px}.grid{grid-template-columns:1fr}.preview{min-height:280px}.curtain{height:190px}.card{padding:20px}header{align-items:flex-start}.settings{grid-template-columns:1fr}.brand{font-size:23px}}@media(prefers-reduced-motion:no-preference){.led{transition:background .2s,opacity .2s}}
+
+.tabs{overflow-x:auto}.tabs button{white-space:nowrap}.swatches{flex-wrap:wrap}textarea{width:100%;min-height:90px;resize:vertical;background:#111827;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit}input[type=file],audio,meter{width:100%}audio{margin-top:12px}meter{height:20px}#colorWheel{display:block;width:min(100%,300px);height:auto;margin:20px auto;border-radius:50%;touch-action:none;cursor:crosshair}#colorWheel:focus-visible{outline:3px solid #d4aaff;outline-offset:5px}#pixelCanvas{width:100%;height:280px;object-fit:contain;object-position:center top;margin:18px 0}.grid-settings{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid-settings label:last-child{grid-column:1/-1}@media(max-width:740px){#pixelCanvas{height:210px}}
+#matrixGrid{display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:3px;margin:16px 0}
+#matrixGrid button{min-width:0;aspect-ratio:1;padding:0;border-radius:3px;background:#111827;border:1px solid #45516b}
+#matrixGrid button[aria-pressed=true]{border-color:#e1e7f6;box-shadow:inset 0 0 0 1px #ffffff50}
+#matrixGrid button:focus-visible{outline:2px solid white;outline-offset:1px;position:relative;z-index:1}
+</style>
+<style>.preview.mirrored #curtain,.preview.mirrored #pixelCanvas{transform:scaleX(-1)}</style>
+</head>
+<body><main>
+<header><div class="brand">surp<span>life</span> <span class="small">/ curtain</span></div><span class="pill" id="connection" role="status">Disconnected</span></header>
+<div class="eyebrow">A little light. Your atmosphere.</div>
+<h1>Make your space glow.</h1>
+<p>Connect your BLE curtain, pick a color, and set the mood.</p>
+<div class="actions"><button class="primary" id="connect">Connect curtain</button><button id="disconnect" disabled>Disconnect</button><button id="demo">Try demo</button><button id="installApp" hidden>Install Surplife</button></div>
+<div id="message" role="status" aria-live="polite">Use Chrome or Edge with Bluetooth enabled. Serve this page over HTTPS or localhost.</div>
+<p class="small" id="appStatus" role="status" aria-live="polite">Install from your browser’s app menu. Offline access becomes available after the first online visit.</p>
+<div class="grid">
+<section class="card preview" id="preview" aria-label="Illustrative curtain preview"><div class="row"><span class="eyebrow">Your curtain</span><span class="small" id="previewMode">Color preview</span></div><div class="curtain" id="curtain" aria-hidden="true"></div><canvas id="pixelCanvas" hidden aria-label="LED grid preview"></canvas><span class="small" id="gridLabel"></span><div><div class="row"><strong id="deviceName">No curtain connected</strong><span class="small" id="previewBrightness">80%</span></div><div class="small">Illustrative preview · device behavior may differ</div><div class="status" id="deviceStatus">Device status: waiting for a notification</div></div></section>
+<section class="card"><div class="tabs" role="tablist" aria-label="Light mode"><button role="tab" aria-selected="true" aria-controls="colorPanel" id="colorTab" data-mode="color">Color</button><button role="tab" aria-selected="false" aria-controls="matrixPanel" id="matrixTab" data-mode="matrix">Matrix</button><button role="tab" aria-selected="false" aria-controls="effectPanel" id="effectTab" data-mode="effect">Effects</button><button role="tab" aria-selected="false" aria-controls="textPanel" id="textTab" data-mode="text">Text</button><button role="tab" aria-selected="false" aria-controls="picPanel" id="picTab" data-mode="pic">Pic</button><button role="tab" aria-selected="false" aria-controls="musicPanel" id="musicTab" data-mode="music">Rhythm</button></div>
+<div id="colorPanel" role="tabpanel" aria-labelledby="colorTab"><h2>Find your color</h2><input id="color" type="hidden" value="#6a00ff"><div class="row"><span>Selected color</span><output id="colorValue">#6A00FF</output></div><canvas id="colorWheel" width="300" height="300" tabindex="0" role="slider" aria-label="Color wheel" aria-valuemin="0" aria-valuemax="360" aria-valuenow="265" aria-describedby="colorWheelHelp"></canvas><p class="small" id="colorWheelHelp">Tap or drag to choose a color. The center is white; the edge is vivid. With the wheel focused, use Left/Right for hue and Up/Down for saturation. Use Brightness to adjust the light level.</p><div class="swatches" id="swatches" aria-label="Color presets"></div><p class="small">Color is shared with Text and picture presets. Rhythm waves, rings, and bars use rainbow colors; Flashing Text and Pic use their selected content colors. Surplife sends hue and intensity; saturation and white are approximated by the device.</p></div>
+<div id="effectPanel" role="tabpanel" aria-labelledby="effectTab" hidden><h2>Let the lights move</h2><label for="effect">Built-in effect</label><select id="effect"></select><p class="small">Effect IDs 0–17 are documented; names vary by curtain.</p><label for="speed" class="row">Speed <output id="speedValue">50%</output></label><input id="speed" type="range" min="0" max="100" value="50"></div>
+<div id="textPanel" class="mode-panel" role="tabpanel" aria-labelledby="textTab" hidden><label for="textInput">Your message</label><textarea id="textInput" rows="3" maxlength="500" aria-describedby="textNote" placeholder="HELLO&#10;WORLD&#10;!">HI</textarea><label for="textDisplay">Text display</label><select id="textDisplay"><option value="static">Static · fit to curtain</option><option value="scroll">Scroll · long text</option><option value="flash">Flash · short text</option></select><div id="textAnimationSettings" hidden><label for="textInterval">Animation interval (milliseconds)<input id="textInterval" type="number" min="100" max="5000" step="100" value="500"></label><div class="actions"><button id="textStart">Start animation</button><button id="textStop" disabled>Stop animation</button></div><p class="small" id="textAnimationStatus" role="status">Ready to animate.</p></div><p id="textNote" class="mode-note">Enter up to 3 lines and 500 characters. Static and Flash fit your message to the curtain. Scroll keeps text readable and moves long lines from right to left through the grid, then repeats. Set color in Color and use Brightness below. Start previews without a connection; when connected, Apply or Start sends animation frames. Bluetooth transfer can make animation slower than the selected interval. Keep the app in the foreground.</p></div>
+<div id="picPanel" class="mode-panel" role="tabpanel" aria-labelledby="picTab" hidden><label for="pictureSource">Import format</label><select id="pictureSource"><option value="map" selected>Matrix map · 20 × 20</option><option value="image">Image · PNG, JPEG, WebP or GIF</option></select><label for="picture" id="pictureLabel">Choose a matrix map</label><input id="picture" type="file" accept=".json,.map,application/json"><label for="pictureFit">Fit to curtain</label><select id="pictureFit"><option value="contain">Fit whole picture</option><option value="cover">Fill and crop</option></select><p id="pictureName" class="mode-note" role="status">Choose a 20 × 20 map file from ./map, or switch to Image for a local picture.</p></div>
+<div id="matrixPanel" class="mode-panel" role="tabpanel" aria-labelledby="matrixTab" hidden><h2>Set each pixel</h2><label for="matrixLoad">Load a 20 × 20 map for editing</label><input id="matrixLoad" type="file" accept=".map,.json,application/json"><p class="small" id="matrixLoadStatus" role="status">Choose a 20 × 20 map file from ./map to edit its pixels.</p><label for="matrixColor">Pixel color<input id="matrixColor" type="color" value="#6a00ff"></label><p class="small" id="matrixHelp">Tap a pixel to turn it on or off. Use arrow keys to move and Space or Enter to toggle. Loaded maps keep their pixel colors. Turning on a pixel uses the selected color; changing Pixel color recolors all lit pixels. Brightness applies to all pixels. Changes send automatically when connected. Mirror display flips the preview and curtain output.</p><div id="matrixGrid" role="group" aria-label="20 by 20 pixel matrix" aria-describedby="matrixHelp"></div><label for="matrixFilename">Save map as</label><select id="matrixFilename"><option value="Surplife-matrix-20x20.map">Matrix map</option><option value="HEART_20x20.map">HEART_20x20.map</option><option value="STAR_20x20.map">STAR_20x20.map</option></select><p class="small">Save map asks you to select this project’s map folder once to save into ./map. Browsers without folder access download the map; move it into ./map.</p><div class="actions"><button id="matrixAllOn">All on</button><button id="matrixAllOff">All off</button><button id="matrixSave">Save map</button></div><p class="small" id="matrixCount" role="status">0 / 400 pixels on</p></div>
+<div id="musicPanel" role="tabpanel" aria-labelledby="musicTab" hidden><h2>Follow the rhythm</h2><div id="browserMusic"><label for="audioSource">Music source</label><select id="audioSource"><option value="mic">Microphone · nearby music</option><option value="file">Local audio file</option></select><div id="audioFilePanel" hidden><input id="audioFile" type="file" accept="audio/*" aria-label="Local music file"><audio id="audioPlayer" controls preload="metadata"></audio></div><label for="rhythmStyle">Beat response</label><select id="rhythmStyle"><option value="flash-text">Flashing Text</option><option value="flash-pic">Flashing Pic</option><option value="wave" selected>Sound Waves</option><option value="ring">Sound Ring</option><option value="color-bar">Equalizer Bars</option></select><div class="swatches" aria-label="Rhythm rainbow RGB colors"><span title="RGB 255,0,0"><span style="color:rgb(255,0,0)">●</span> Red</span><span title="RGB 255,128,0"><span style="color:rgb(255,128,0)">●</span> Orange</span><span title="RGB 255,255,0"><span style="color:rgb(255,255,0)">●</span> Yellow</span><span title="RGB 0,255,0"><span style="color:rgb(0,255,0)">●</span> Green</span><span title="RGB 0,255,255"><span style="color:rgb(0,255,255)">●</span> Cyan</span><span title="RGB 0,0,255"><span style="color:rgb(0,0,255)">●</span> Blue</span><span title="RGB 128,0,255"><span style="color:rgb(128,0,255)">●</span> Violet</span></div><p id="rhythmContent" class="mode-note"></p><p class="mode-note">All Rhythm modes update columns 1 to 20, with LEDs/rows 1 to 20 in each column. Sound Waves shifts a rainbow wave pattern from column 1 toward column 20, then wraps to column 1, to the music and changes rainbow colors only on detected beats. Sound Ring shows a rainbow outline with audio-driven spikes and cycling colors. Equalizer Bars shows regular rainbow bars filling from LED/row 1 toward 20 according to each bass-to-treble band's strength, with no fixed minimum height; silent bands turn off. The wave holds its position during silence, and the ring stays visible. Waves and ring add or remove up to 24 dots per update; equalizer bars follow their current audio heights directly. Flashing modes update their full pattern on detected beats, then turn off between beats. Ring and equalizer colors cycle each frame. Pixel updates never clear the whole curtain in one command. Complex frames may still take seconds to transmit; the preview animates faster than the curtain.</p><meter id="beatMeter" min="0" max="1" value="0" aria-label="Music energy"></meter><div class="rhythm-buttons"><button id="rhythmStart" class="primary">Start audio</button><button id="rhythmStop" disabled>Stop</button></div><p id="rhythmStatus" class="mode-note" role="status">Start to listen. Connect a curtain to send the beat response.</p><p class="mode-note">Audio is analyzed locally. Microphone permission is requested only when you start. Live response needs this app in the foreground; Bluetooth updates are paced and may lag the preview.</p></div></div>
+<label class="check"><input type="checkbox" id="mirrorDisplay" aria-describedby="mirrorNote">Mirror display horizontally</label><p class="small" id="mirrorNote">Flip left and right across all mode previews. Matrix, Text, Pic, and all Rhythm options also send mirrored pixels to the curtain. Solid colors look unchanged. Built-in Effects mirror the preview only; the device protocol has no documented effect mirror command.</p>
+<label for="brightness" class="row">Brightness <output id="brightnessValue">80%</output></label><input id="brightness" type="range" min="0" max="100" value="80">
+<div id="gridSettings" class="mode-panel" hidden><div class="grid-settings"><label for="columns">Columns<input id="columns" type="number" min="1" max="400" value="20"></label><label for="rows">Rows<input id="rows" type="number" min="1" max="400" value="20"></label><label for="wiring">Wiring from top right<select id="wiring"><option value="columns">Columns · same direction</option><option value="columns-zigzag">Columns · serpentine</option><option value="rows-zigzag">Rows · serpentine</option><option value="rows">Rows · same direction</option></select></label><label for="maskBitOrder">Pixel mask bit order<select id="maskBitOrder"><option value="msb">Most significant bit first</option><option value="lsb">Least significant bit first</option></select></label></div><p class="small">Match your curtain dimensions and wiring (up to 400 LEDs). Default addressing runs down each column, with strips ordered right to left from the top right. Text supports static, scrolling, and flashing frames; Pic paints static frames; uploaded GIFs use their first frame. Pictures use a reduced hue/intensity palette for practical BLE transfer times. Experimental painting requires compatible Surplife firmware.</p></div>
+<p class="small" id="sceneLabel" role="status"></p><label class="check"><input type="checkbox" id="live">Apply changes automatically</label>
+<div class="actions"><button class="primary" id="apply" data-control disabled>Apply color</button><button id="on" data-control disabled>Turn on</button><button id="dark" data-control disabled>Dim to zero</button></div><p class="small">Dim to zero sends a black color. The supplied notes do not specify a power-off command.</p>
+</section></div>
+<details class="card"><summary>Connection &amp; protocol settings</summary><div class="inner"><p class="small">Close the Surplife app and any other apps connected to the curtain, then select it in the BLE picker. The controller automatically looks for compatible controls. Settings take effect on the next connection.</p><div class="settings"><div><label for="service">Service UUID override (optional)</label><input id="service" type="text" placeholder="Auto-detect (F000 / FFFF)" spellcheck="false"></div><div><label for="packetSize">Maximum write size</label><select id="packetSize"><option value="20">20 bytes (conservative)</option><option value="64">64 bytes (requires device support)</option><option value="128">128 bytes (requires device support)</option></select></div><div><label for="continuation">Continuation header</label><select id="continuation"><option value="5">5 bytes (V0 source analysis)</option><option value="6">6 bytes (alternate notes)</option></select></div><div><label for="timeSuffix">Optional clock suffix (hex)</label><input id="timeSuffix" type="text" placeholder="Leave empty; captured example: 0f d1" spellcheck="false"></div></div><label class="check"><input type="checkbox" id="allDevices" checked>Show all BLE devices</label><label class="check"><input type="checkbox" id="syncClock" checked>Sync local time when connecting</label><p class="small">The original clock sample has two unexplained trailing bytes; the linked update uses a 10-byte timestamp. This controller uses the updated timestamp by default. Segmentation descriptions also differ; start with the 5-byte V0 header.</p><div class="actions"><button id="ping" data-control disabled>Request status</button><button id="sync" data-control disabled>Sync time</button></div></div></details>
+<details class="card"><summary>Color calibration</summary><div class="inner"><p class="small">Test each physical channel and note its color, then select a mapping. “Save mapping” writes the selected order to the curtain’s memory.</p><div class="actions"><button data-pin="0" data-control disabled>Test pin 1</button><button data-pin="1" data-control disabled>Test pin 2</button><button data-pin="2" data-control disabled>Test pin 3</button></div><label for="mapping">Physical pin color order</label><select id="mapping"><option>RGB</option><option>RBG</option><option>GRB</option><option>GBR</option><option>BRG</option><option>BGR</option></select><div class="actions"><button id="saveMapping" data-control disabled>Save mapping</button><button id="exitCalibration" data-control disabled>Return to selected mode</button></div></div></details>
+<details class="card"><summary>Packet log</summary><div class="inner"><p class="small">TX is a completed BLE write, not confirmation that the curtain applied it. DEMO packets never reach a device.</p><pre id="log" aria-label="BLE packet log">Ready.</pre><div class="actions"><button id="clearLog">Clear log</button><button id="downloadLog">Download log</button></div></div></details>
+<footer>Based on <a href="controllights.md">controllights.md</a> and its <a href="https://gist.github.com/marcelrv/36f9d2c66a273289211cc5fa73b00018#file-surplife_protocol_description-md" target="_blank" rel="noopener">linked protocol update</a>. Unofficial controller · no external scripts or services.</footer>
+</main>
+<script>
+// Keep startup reporting separate so it also catches main-script syntax errors.
+(function () {
+ var reported = false;
+ function reportStartupError(detail) {
+  reported = true;
+  var status = document.getElementById('message');
+  var output = document.getElementById('log');
+  var text = 'Controller error: ' + detail;
+  if (status) { status.textContent = text; status.classList.add('error'); }
+  if (output) output.textContent += '\nERROR  ' + detail + '\nBrowser: ' + navigator.userAgent;
+ }
+ window.addEventListener('error', function (event) {
+  if (event.message) reportStartupError(event.message + (event.lineno ? ' (line ' + event.lineno + ')' : ''));
+ });
+ window.addEventListener('unhandledrejection', function (event) {
+  var reason = event.reason;
+  reportStartupError(reason && reason.message ? reason.message : String(reason));
+ });
+ window.addEventListener('load', function () {
+  var button = document.getElementById('connect');
+  if (!reported && button && typeof button.onclick !== 'function') {
+   reportStartupError('Startup stopped before the Connect button was initialized. See Packet log for the error.');
+  }
+ });
+})();
+</script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+// Known Surplife curtain and MagicHome2 BLE service variants.
+const SERVICE_UUIDS = ['0000f000-0000-1000-8000-00805f9b34fb','0000ffff-0000-1000-8000-00805f9b34fb'];
+const WRITE_UUID = '0000ff01-0000-1000-8000-00805f9b34fb';
+const NOTIFY_UUID = '0000ff02-0000-1000-8000-00805f9b34fb';
+const PING = [0xea,0x81,0x8a,0x8b,0x59];
+let device=null, writer=null, notifier=null, demo=false, ready=false, connecting=false;
+let sequence=0, generation=0, mode='color', queue=Promise.resolve(), liveTimer=null;
+let transport={size:20,continuation:5}, received=new Map(), entries=[];
+const MAX_LEDS=400;
+const matrixPixels=Array(400).fill(false);
+const matrixPixelColors=Array(400).fill(null);
+let matrixLoadVersion=0,matrixDirectoryHandle=null;
+let textAnimationSession=0,textAnimationActive=false,textAnimationTimer=null,textAnimationSource=null,textAnimationStep=0;
+let previewOn=true, previewColumns=0, previewRows=0, pendingCommands=0;
+let pictureImage=null, pictureMap=null, pictureVersion=0;
+let rhythmSession=0, rhythmActive=false, rhythmTimer=null, rhythmContext=null, rhythmStream=null, rhythmSource=null, audioURL=null;
+let rhythmFlashContent=null;
+let paintedFrame=null, rhythmBeatCount=0, rhythmRevision=0, rhythmPaintCursor=0;
+let rhythmWrite=Promise.resolve(), rhythmFrameBusy=false, rhythmLastSend=-Infinity, rhythmEnergy=0, rhythmPhase=0, rhythmBarLevels=[], rhythmWaveSamples=[], rhythmRingSamples=[];
+const number=id=>Number($(id).value);
+const hex=bytes=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join(' ');
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+function message(text,error=false){$('message').textContent=text;$('message').classList.toggle('error',error);}
+function log(kind,text){entries.push(`${new Date().toLocaleTimeString()} ${kind}  ${text}`);if(entries.length>250)entries.shift();$('log').textContent=entries.join('\n');$('log').scrollTop=$('log').scrollHeight;}
+function setReady(value){
+ ready=value;document.querySelectorAll('[data-control]').forEach(b=>b.disabled=!value);$('disconnect').disabled=!value;$('connect').disabled=value||connecting||!navigator.bluetooth||!window.isSecureContext;$('demo').disabled=connecting;$('demo').textContent=demo?'Exit demo':'Try demo';$('connection').textContent=value?(demo?'Demo · no BLE':'Connected'):'Disconnected';$('connection').classList.toggle('live',value);
+ // Preview failures must not block the BLE picker or connection error cleanup.
+ try{updatePreview();}catch(error){log('WARN','Preview update failed: '+error.message);}
+}
+function parseHex(text){const clean=text.trim();if(!clean)return [];if(!/^(?:[0-9a-f]{2})(?:\s+[0-9a-f]{2})*$/i.test(clean))throw Error('Use pairs of hex digits separated by spaces.');return clean.split(/\s+/).map(x=>parseInt(x,16));}
+// Match the captured single frames exactly: length excludes 0A, chunk length includes it.
+// Multisegment V0 uses a 5-byte continuation header; a 6-byte variant is selectable.
+function encode(payload,seq,size=20,continuation=5){
+ if(!payload.length||payload.length>65534)throw Error('Invalid payload length.');
+ if(size<9||size>255)throw Error('Invalid maximum packet size.');
+ const len=payload.length, first=payload.slice(0,size-8), multi=first.length<len;
+ const frames=[Uint8Array.from([multi?0x40:0,seq,multi?0:0x80,0,len>>8,len&255,first.length+1,0x0a,...first])];
+ let offset=first.length,index=1;
+ while(offset<len){const chunk=payload.slice(offset,offset+size-continuation);offset+=chunk.length;const id=(offset===len?0x8000:0)|index++;frames.push(Uint8Array.from([0x40,seq,id>>8,id&255,chunk.length,...(continuation===6?[0]:[]),...chunk]));}
+ return frames;
+}
+// Queue complete transactions so calibration, audio and pixel frames cannot interleave.
+function send(payload,label){return sendBatch([payload],label);}
+function sendBatch(payloads,label,valid=()=>true,complete=()=>{},options={}){
+ const token=generation,target=writer,simulated=demo,settings={...transport};pendingCommands++;
+ const task=queue.then(async()=>{
+  if(token!==generation||(!simulated&&!device?.gatt.connected)||(!target&&!simulated))throw Error('Curtain is disconnected.');
+  const batch=typeof payloads==='function'?payloads():payloads;
+  for(const payload of batch){
+   if(!valid())return;
+   // Invalidate our pixel mirror before a write, including failed/partial writes.
+   paintedFrame=null;
+   sequence=(sequence+1)&255;
+   // Finish a segmented message before cancelling a superseded audio frame.
+   for(const frame of encode(payload,sequence,settings.size,settings.continuation)){
+    if(token!==generation)throw Error('Connection changed; command cancelled.');
+    if(!simulated){if(!options.withResponse&&target.properties.writeWithoutResponse&&target.writeValueWithoutResponse)await target.writeValueWithoutResponse(frame);else if(target.properties.write&&target.writeValueWithResponse)await target.writeValueWithResponse(frame);else if(target.properties.writeWithoutResponse&&target.writeValueWithoutResponse)await target.writeValueWithoutResponse(frame);else await target.writeValue(frame);}
+    log(simulated?'DEMO':'TX',`${label}: ${hex(frame)}`);await delay(options.packetDelay??10);
+   }
+   if(token!==generation)throw Error('Connection changed; command cancelled.');
+   options.onPayload?.(payload);
+  }
+  if(valid())complete();
+ }).finally(()=>{pendingCommands--;});queue=task.catch(()=>{});return task;
+}
+function timePayload(date=new Date()){
+ const year=date.getFullYear();return [0x10,Math.floor(year/100),year%100,date.getMonth()+1,date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds(),date.getDay()||7,0,...parseHex($('timeSuffix').value)];
+}
+function musicPayload(){
+ // Preserve the full observed 54-byte palette/configuration template.
+ const data=parseHex('e1 05 00 64 03 00 00 64 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a1 00 00 00 06 a1 00 64 64 a1 96 64 64 a1 78 64 64 a1 5a 64 64 a1 3c 64 64 a1 1e 64 64');
+ data[3]=number('brightness');data[7]=75;return data;
+}
+function rgbToHue(rgb){
+ const [r,g,b]=rgb.map(v=>v/255),max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
+ let hue=0;if(delta){if(max===r)hue=((g-b)/delta)%6;else if(max===g)hue=(b-r)/delta+2;else hue=(r-g)/delta+4;}
+ return {hue:(hue*60+360)%360,value:max};
+}
+function rgbWireColor(rgb,brightness,energy=1){const c=rgbToHue(rgb);return [Math.round(c.hue*255/360),Math.round(c.value*brightness/100*255*energy)];}
+function colorPayload(energy=1){return [0xe2,0x0b,...rgbWireColor(rgbColor(),number('brightness'),energy)];}
+function selectedPayload(){if(mode==='effect')return [0xe0,2,0,number('effect'),number('speed'),number('brightness')];if(mode==='music')return musicPayload();return colorPayload();}
+async function apply(){stopAudio();if(mode==='matrix')await paintMatrixFrame(matrixFrame());else if(mode==='text'&&$('textDisplay').value!=='static'){await startTextAnimation();return;}else if(['text','pic'].includes(mode))await paintFrame(contentFrame());else await send(selectedPayload(),mode);message(demo?'Demo preview updated. No Bluetooth data sent.':'Command written. Device confirmation appears in the status panel when available.');}
+async function run(action){try{await action();}catch(error){message(error.message,true);log('ERROR',error.message);}}
+function updatePreview(){
+ $('preview').classList.toggle('mirrored',$('mirrorDisplay').checked);
+ const level=number('brightness'),rgb=rgbColor(),h=rgbToHue(rgb).hue;
+ document.documentElement.style.setProperty('--led-color',$('color').value);
+ document.documentElement.style.setProperty('--hue',h);document.documentElement.style.setProperty('--level',level/100);
+ $('matrixColor').value=$('color').value;updateMatrix();
+ $('colorValue').textContent=$('color').value.toUpperCase();drawColorWheel();
+ $('preview').classList.toggle('effects',mode==='effect');$('previewMode').textContent=mode==='music'?'Rhythm preview':mode[0].toUpperCase()+mode.slice(1)+' preview';
+ $('previewBrightness').textContent=level+'%';$('apply').textContent='Apply '+(mode==='music'?'curtain microphone':mode);
+ for(const id of ['brightness','speed'])$(id+'Value').textContent=number(id)+'%';
+ const pixels=['text','pic','matrix'].includes(mode)||(mode==='music'&&rhythmUsesPixels());
+ $('gridSettings').hidden=!pixels;
+ for(const id of ['columns','rows'])$(id).closest('label').hidden=mode==='matrix'||!!pictureMap&&(mode==='pic'||mode==='music'&&$('rhythmStyle').value==='flash-pic');$('pixelCanvas').hidden=!pixels;$('curtain').hidden=pixels;
+ $('sceneLabel').textContent='';let valid=true;
+ try{
+  const {columns,rows}=gridSize();$('gridLabel').textContent=`${columns} × ${rows} · ${columns*rows} LEDs`;
+  if(columns!==previewColumns||rows!==previewRows){$('curtain').replaceChildren();$('curtain').style.gridTemplateColumns=`repeat(${columns},1fr)`;
+   for(let x=0;x<columns;x++){const strand=document.createElement('div');strand.className='strand';for(let y=0;y<rows;y++){const led=document.createElement('i');led.className='led';strand.append(led);} $('curtain').append(strand);}previewColumns=columns;previewRows=rows;}
+  if(pixels)drawPixels(mode==='music'?rhythmPixelFrame(rhythmEnergy,rhythmPhase):mode==='text'&&$('textDisplay').value==='scroll'?textWindow(scrollingTextSource(),0):contentFrame());
+ }catch(error){valid=false;$('sceneLabel').textContent=error.message;if(pixels)$('pixelCanvas').getContext('2d').clearRect(0,0,$('pixelCanvas').width,$('pixelCanvas').height);}
+ $('apply').disabled=!ready||!valid||mode==='music';
+ $('live').disabled=pixels||mode==='music';
+ $('textAnimationSettings').hidden=$('textDisplay').value==='static';
+ document.querySelector('label[for=pictureFit]').hidden=!!pictureMap;$('pictureFit').hidden=!!pictureMap;
+ $('rhythmContent').textContent=$('rhythmStyle').value==='flash-text'?'Flashes your Text message on detected beats. Set the message in Text and its color in Color.':$('rhythmStyle').value==='flash-pic'?'Flashes the selected Pic map or image on detected beats. Choose the content in Pic.':'Responds to beat and volume.';
+}
+function change(){if(textAnimationActive)stopTextAnimation();updatePreview();clearTimeout(liveTimer);if(ready&&!$('apply').disabled&&(mode==='matrix'||($('live').checked&&!$('live').disabled)))liveTimer=setTimeout(()=>run(apply),180);}
+function selectMode(next){stopAudio();mode=next;for(const name of ['color','effect','text','pic','matrix','music']){$(name+'Panel').hidden=name!==mode;$(name+'Tab').setAttribute('aria-selected',String(name===mode));$(name+'Tab').tabIndex=name===mode?0:-1;}change();}
+function wheelRGB(hue,saturation) {
+ const chroma=saturation,x=chroma*(1-Math.abs((hue/60)%2-1)),m=1-chroma;
+ const channels=hue<60?[chroma,x,0]:hue<120?[x,chroma,0]:hue<180?[0,chroma,x]:hue<240?[0,x,chroma]:hue<300?[x,0,chroma]:[chroma,0,x];
+ return channels.map(value=>Math.round((value+m)*255));
+}
+function wheelSelection() {
+ const rgb=rgbColor(),max=Math.max(...rgb),min=Math.min(...rgb);
+ return {hue:rgbToHue(rgb).hue,saturation:max?(max-min)/max:0};
+}
+let wheelBackground=null;
+function drawColorWheel() {
+ const canvas=$('colorWheel'),context=canvas.getContext('2d'),size=canvas.width,center=size/2,radius=center-9;
+ if(!wheelBackground){
+  wheelBackground=document.createElement('canvas');wheelBackground.width=size;wheelBackground.height=size;
+  const background=wheelBackground.getContext('2d'),image=background.createImageData(size,size);
+  for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+   const dx=x+.5-center,dy=y+.5-center,distance=Math.hypot(dx,dy);
+   if(distance>radius)continue;
+   const hue=(Math.atan2(dy,dx)*180/Math.PI+360)%360,rgb=wheelRGB(hue,distance/radius),index=(y*size+x)*4;
+   image.data.set([...rgb,255],index);
+  }
+  background.putImageData(image,0,0);
+ }
+ context.clearRect(0,0,size,size);context.drawImage(wheelBackground,0,0);
+ const {hue,saturation}=wheelSelection(),angle=hue*Math.PI/180;
+ context.beginPath();context.arc(center+Math.cos(angle)*saturation*radius,center+Math.sin(angle)*saturation*radius,7,0,Math.PI*2);
+ context.lineWidth=4;context.strokeStyle='#111827';context.stroke();context.lineWidth=2;context.strokeStyle='#fff';context.stroke();
+ canvas.setAttribute('aria-valuenow',String(Math.round(hue)));
+ canvas.setAttribute('aria-valuetext',$('color').value.toUpperCase()+', hue '+Math.round(hue)+' degrees, saturation '+Math.round(saturation*100)+' percent');
+}
+function chooseWheelColor(hue,saturation){
+ $('color').value='#'+wheelRGB((hue+360)%360,Math.max(0,Math.min(1,saturation))).map(value=>value.toString(16).padStart(2,'0')).join('');change();
+}
+function pickWheelColor(event){
+ const canvas=$('colorWheel'),rect=canvas.getBoundingClientRect();
+ const x=(event.clientX-rect.left)*canvas.width/rect.width-canvas.width/2,y=(event.clientY-rect.top)*canvas.height/rect.height-canvas.height/2;
+ chooseWheelColor(Math.atan2(y,x)*180/Math.PI,Math.hypot(x,y)/(canvas.width/2-9));
+}
+function report(payload){
+ if(payload.length<11||payload[0]!==0xea||payload[1]!==0x81||payload[10]!==0xf0)return;
+ // Updated curtain notes identify power at byte 6. Other fields remain mode-dependent.
+ const power=payload[6]===0x23?'On':payload[6]===0x24?'Off':'Unknown';
+ $('deviceStatus').textContent=`Reported power: ${power} · Model: 0x${hex([payload[4]])} · Data 1: ${payload[8]} · Data 2: ${payload[9]} · ${new Date().toLocaleTimeString()}`;
+}
+function notification(event){
+ const value=event.target.value, bytes=new Uint8Array(value.buffer,value.byteOffset,value.byteLength);log('RX',hex(bytes));
+ if(bytes[0]===0xea){report(bytes);return;}
+ if(bytes.length<5||(bytes[0]&3)!==0)return;
+ const seq=bytes[1],id=(bytes[2]<<8)|bytes[3];
+ if(id===0x8000&&bytes.length>=8){if(bytes[6]===bytes.length-7)report(bytes.slice(8));return;}
+ if(id===0&&bytes.length>=8){
+  if(bytes[6]!==bytes.length-7)return;
+  for(const [key,item] of received)if(Date.now()-item.time>5000)received.delete(key);
+  received.set(seq,{parts:Array.from(bytes.slice(8)),length:(bytes[4]<<8)|bytes[5],next:1,time:Date.now()});return;
+ }
+ const pending=received.get(seq);if(!pending)return;
+ if(Date.now()-pending.time>5000||(id&0x7fff)!==pending.next){received.delete(seq);return;}
+ const count=bytes[4];const header=bytes.length===count+6?6:5;if(bytes.length!==count+header){received.delete(seq);return;}
+ pending.parts.push(...bytes.slice(header));pending.next++;
+ if(pending.parts.length>pending.length){received.delete(seq);return;}
+ if(id&0x8000){if(pending.parts.length===pending.length)report(Uint8Array.from(pending.parts));received.delete(seq);}
+}
+function cleanup(){stopAudio();paintedFrame=null;generation++;clearTimeout(liveTimer);received.clear();if(notifier)notifier.removeEventListener('characteristicvaluechanged',notification);notifier=null;writer=null;demo=false;connecting=false;queue=Promise.resolve();setReady(false);$('deviceName').textContent='No curtain connected';$('deviceStatus').textContent='Device status: waiting for a notification';$('service').disabled=false;$('packetSize').disabled=false;$('continuation').disabled=false;}
+function disconnected(){cleanup();message('Curtain disconnected. Connect again to continue.');log('INFO','Disconnected');}
+function disconnect(){if(device){device.removeEventListener('gattserverdisconnected',disconnected);if(device.gatt.connected)device.gatt.disconnect();}device=null;cleanup();}
+function connectionError(error,stage){
+ if(error.name==='NotFoundError'&&stage==='picker')return 'No BLE device selected. If your curtain is missing, enable Bluetooth, move closer, and close other apps connected to it.';
+ if(error.name==='SecurityError'||error.name==='NotAllowedError')return 'Bluetooth access was denied. Allow Bluetooth for this site and open it directly over HTTPS or localhost.';
+ if(error.name==='NetworkError')return 'The BLE connection failed during '+stage+'. Close the Surplife app or other Bluetooth controllers, power-cycle the curtain, and connect again.';
+ return 'Could not connect during '+stage+': '+error.message;
+}
+async function discoverControls(server,services){
+ for(const uuid of services){
+  let primary;
+  try{primary=await server.getPrimaryService(uuid);}
+  catch(error){if(error.name!=='NotFoundError')throw error;log('INFO','Service not present: '+uuid);continue;}
+  const characteristics=await primary.getCharacteristics();
+  log('INFO','Service '+uuid+' · Characteristics: '+characteristics.map(c=>c.uuid).join(', '));
+  const output=characteristics.find(c=>c.uuid===WRITE_UUID&&(c.properties.write||c.properties.writeWithoutResponse));
+  if(!output)continue;
+  const input=characteristics.find(c=>c.uuid===NOTIFY_UUID&&(c.properties.notify||c.properties.indicate));
+  return {primary,output,input};
+ }
+ throw Error('No compatible FF01 write characteristic found in services '+services.join(', ')+'. Check the curtain’s service UUID with a BLE inspector and enter it in Connection settings.');
+}
+async function connect(){
+ if(connecting||ready)return;
+ let stage='setup', selected=null;
+ const warnings=[];
+ const token=generation;
+ const checkConnection=()=>{if(token!==generation)throw Error('Connection cancelled.');};
+ try{
+  if(!window.isSecureContext)throw Error('Bluetooth requires HTTPS or localhost.');
+  if(!navigator.bluetooth)throw Error('Web Bluetooth is unavailable. Use a browser that supports Web Bluetooth.');
+  const service=$('service').value.trim().toLowerCase();
+  if(service&&!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(service))throw Error('Enter a valid service UUID, or leave it empty for auto-detection.');
+  const services=[...new Set([...(service?[service]:[]),...SERVICE_UUIDS])];
+  const clock=$('syncClock').checked?timePayload():null;
+  connecting=true;setReady(false);message('Choose your curtain in the Bluetooth device picker.');stage='picker';
+  // Do not filter by an advertised service by default: some curtains omit it.
+  // All services we may inspect must be allowed in this initial permission request.
+  selected=await navigator.bluetooth.requestDevice($('allDevices').checked?
+   {acceptAllDevices:true,optionalServices:services}:
+   {filters:services.map(uuid=>({services:[uuid]})),optionalServices:services});
+  checkConnection();device=selected;
+  if(!device.gatt)throw Error('The selected device does not expose a BLE GATT server.');
+  device.addEventListener('gattserverdisconnected',disconnected);message('Connecting and discovering curtain controls…');stage='GATT connection';
+  const server=await device.gatt.connect();checkConnection();stage='service discovery';
+  const controls=await discoverControls(server,services);checkConnection();
+  writer=controls.output;notifier=controls.input||null;
+  log('INFO','Using service '+controls.primary.uuid+' · '+(writer.properties.writeWithoutResponse?'write without response':'write with response'));
+  if(notifier){
+   stage='notification subscription';notifier.addEventListener('characteristicvaluechanged',notification);
+   const statusCharacteristic=notifier;
+   try{await statusCharacteristic.startNotifications();checkConnection();}
+   catch(error){
+    statusCharacteristic.removeEventListener('characteristicvaluechanged',notification);
+    checkConnection();if(!device?.gatt?.connected)throw error;
+    notifier=null;warnings.push('Status reports are unavailable.');
+    log('WARN','Notification subscription failed; continuing without status reports: '+error.name+' · '+error.message);
+   }
+  }else{log('INFO','No FF02 notification characteristic; commands available without status reports.');}
+  transport={size:number('packetSize'),continuation:number('continuation')};sequence=0;stage='initialization';
+  if(clock){
+   stage='clock sync';
+   try{await send(clock,'Time sync');checkConnection();}
+   catch(error){
+    checkConnection();if(!device?.gatt?.connected)throw error;
+    warnings.push('Clock sync failed; device time was not confirmed.');
+    log('WARN','Clock sync failed; continuing to handshake: '+error.name+' · '+error.message);
+   }
+  }
+  stage='handshake';await send(PING,'Handshake');checkConnection();
+  connecting=false;setReady(true);$('deviceName').textContent=device.name||'BLE curtain';for(const id of ['service','packetSize','continuation'])$(id).disabled=true;
+  if(!notifier)$('deviceStatus').textContent='Status reports unavailable on this device.';
+  if(!notifier&&!warnings.includes('Status reports are unavailable.'))warnings.push('Status reports are unavailable.');
+  message('Connected. Choose a mode and press Apply.'+(warnings.length?' '+warnings.join(' '):''));log('INFO','Connected to '+(device.name||device.id));
+ }catch(error){
+  if(token!==generation){if(selected?.gatt?.connected)selected.gatt.disconnect();return;}
+  disconnect();message(connectionError(error,stage),true);log('ERROR',stage+': '+error.name+' · '+error.message);
+ }
+}
+function gridSize() {
+ if(mode==='matrix'||pictureMap&&(mode==='pic'||mode==='music'&&$('rhythmStyle').value==='flash-pic'))return {columns:20,rows:20};
+ const columns=Number($('columns').value),rows=Number($('rows').value);
+ if(!Number.isInteger(columns)||!Number.isInteger(rows)||columns<1||rows<1||columns*rows>MAX_LEDS) throw new Error('Use whole dimensions with 1–400 LEDs total.');
+ return {columns,rows};
+}
+function rgbColor() { return $('color').value.match(/[a-f\d]{2}/gi).map(x=>parseInt(x,16)); }
+function toWireOrder(pixels,columns,rows,wiring) {
+ const result=[];
+ const pixelAt=(x,y)=>pixels[y*columns+($('mirrorDisplay').checked?columns-1-x:x)];
+ // Preview coordinates run left to right; the curtain starts at the rightmost strip.
+ // Reverse columns only, preserving LED order within each strip.
+ if(wiring.startsWith('columns')) {
+  for(let strip=0;strip<columns;strip++) for(let k=0;k<rows;k++) {
+   const x=columns-1-strip,y=wiring.endsWith('zigzag')&&strip%2?rows-1-k:k;
+   result.push(pixelAt(x,y));
+  }
+ } else {
+  for(let y=0;y<rows;y++) for(let k=0;k<columns;k++) {
+   const x=wiring.endsWith('zigzag')&&y%2?k:columns-1-k;
+   result.push(pixelAt(x,y));
+  }
+ }
+ return result;
+}
+function matrixFrame(){
+ const rgb=rgbColor();
+ return {columns:20,rows:20,pixels:matrixPixels.map((on,index)=>on?(matrixPixelColors[index]||rgb).slice():[0,0,0])};
+}
+function updateMatrix(){
+ const buttons=$('matrixGrid').children;
+ matrixPixels.forEach((on,index)=>{
+  buttons[index].setAttribute('aria-pressed',String(on));
+  buttons[index].style.background=on?(matrixPixelColors[index]?'rgb('+matrixPixelColors[index].join(',')+')':$('color').value):'';
+ });
+ $('matrixCount').textContent=matrixPixels.filter(Boolean).length+' / 400 pixels on';
+}
+function initializeMatrix(){
+ const grid=$('matrixGrid');
+ matrixPixels.forEach((_,index)=>{
+  const button=document.createElement('button');
+  button.type='button';button.dataset.pixel=index;button.tabIndex=index===0?0:-1;
+  button.setAttribute('aria-label','Row '+(Math.floor(index/20)+1)+', column '+(index%20+1));
+  button.setAttribute('aria-pressed','false');
+  button.onclick=()=>{matrixPixels[index]=!matrixPixels[index];matrixPixelColors[index]=null;change();};
+  button.onfocus=()=>{for(const pixel of grid.children)pixel.tabIndex=pixel===button?0:-1;};
+  button.onkeydown=event=>{
+   if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key))return;
+   event.preventDefault();const row=Math.floor(index/20),column=index%20;
+   const next=event.key==='ArrowLeft'?row*20+Math.max(0,column-1):event.key==='ArrowRight'?row*20+Math.min(19,column+1):event.key==='ArrowUp'?Math.max(0,row-1)*20+column:event.key==='ArrowDown'?Math.min(19,row+1)*20+column:event.key==='Home'?(event.ctrlKey?0:row*20):(event.ctrlKey?399:row*20+19);
+   grid.children[next].focus();
+  };
+  grid.append(button);
+ });
+}
+function contentFrame(kind=mode,tintPicture=false) {
+ if(kind==='matrix')return matrixFrame();
+ if(kind==='pic'&&pictureMap){
+  const tint=tintPicture?rgbColor():null;
+  return {columns:20,rows:20,pixels:pictureMap.pixels.map(rgb=>tint?tint.map(v=>Math.round(v*Math.max(...rgb)/255)):rgb.slice())};
+ }
+ const {columns,rows}=gridSize();
+ const canvas=document.createElement('canvas');canvas.width=columns;canvas.height=rows;
+ const context=canvas.getContext('2d',{willReadFrequently:true});
+ context.fillStyle='#000';context.fillRect(0,0,columns,rows);
+ if(kind==='text') {
+  const text=$('textInput').value;if(!text.trim()) throw new Error('Enter a message to preview.');
+  const lines=text.split('\n');
+  if(lines.length>3) throw new Error('Use up to 3 lines of text.');
+  context.fillStyle=$('color').value;context.textAlign='center';context.textBaseline='middle';
+  let size=rows*.9/(lines.length*1.1);context.font=`bold ${size}px sans-serif`;
+  const width=Math.max(...lines.map(line=>context.measureText(line).width));
+  if(width>columns) size*=columns/width;
+  const lineHeight=size*1.1;
+  context.font=`bold ${size}px sans-serif`;
+  lines.forEach((line,index)=>context.fillText(line,columns/2,rows/2+(index-(lines.length-1)/2)*lineHeight,columns));
+ } else {
+  if(!pictureImage) throw new Error('Choose a picture or preset.');
+  const iw=pictureImage.width,ih=pictureImage.height;
+  const scale=$('pictureFit').value==='cover'?Math.max(columns/iw,rows/ih):Math.min(columns/iw,rows/ih);
+  const width=iw*scale,height=ih*scale;context.drawImage(pictureImage,(columns-width)/2,(rows-height)/2,width,height);
+ }
+ const rgba=context.getImageData(0,0,columns,rows).data;
+ const pixels=[],tint=kind==='pic'&&tintPicture?rgbColor():null;
+ for(let i=0;i<rgba.length;i+=4) {
+  const rgb=[rgba[i],rgba[i+1],rgba[i+2]];
+  pixels.push(tint?tint.map(v=>Math.round(v*Math.max(...rgb)/255)):rgb);
+ }
+ return {columns,rows,pixels};
+}
+function scrollingTextSource(){
+ const {columns,rows}=gridSize(),text=$('textInput').value,lines=text.split('\n');
+ if(!text.trim())throw Error('Enter a message to preview.');
+ if(lines.length>3)throw Error('Use up to 3 lines of text.');
+ const canvas=document.createElement('canvas'),context=canvas.getContext('2d',{willReadFrequently:true});
+ const size=rows*.9/(lines.length*1.1),lineHeight=size*1.1;
+ context.font='bold '+size+'px sans-serif';
+ const width=Math.max(columns,Math.ceil(Math.max(...lines.map(line=>context.measureText(line).width)))+2);
+ canvas.width=width;canvas.height=rows;context.fillStyle='#000';context.fillRect(0,0,width,rows);
+ context.font='bold '+size+'px sans-serif';context.textAlign='left';context.textBaseline='middle';context.fillStyle=$('color').value;
+ lines.forEach((line,index)=>context.fillText(line,1,rows/2+(index-(lines.length-1)/2)*lineHeight));
+ const data=context.getImageData(0,0,width,rows).data,pixels=[];
+ for(let i=0;i<data.length;i+=4)pixels.push([data[i],data[i+1],data[i+2]]);
+ return {columns,rows,width,pixels};
+}
+function textWindow(source,offset){
+ const {columns,rows,width}=source,pixels=[];
+ for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){
+  const sx=x+offset;pixels.push(sx>=0&&sx<width?source.pixels[y*width+sx].slice():[0,0,0]);
+ }
+ return {columns,rows,pixels};
+}
+function textAnimationFrame(style,source,step){
+ if(style==='scroll')return textWindow(source,(step%(source.width+source.columns))-source.columns);
+ return {columns:source.columns,rows:source.rows,pixels:source.pixels.map(rgb=>step%2?[0,0,0]:rgb.slice())};
+}
+function stopTextAnimation(){
+ ++textAnimationSession;textAnimationActive=false;clearTimeout(textAnimationTimer);textAnimationTimer=null;
+ $('textStart').disabled=false;$('textStop').disabled=true;
+ $('textAnimationStatus').textContent='Stopped. The curtain keeps its last transmitted frame.';
+}
+async function startTextAnimation(){
+ stopAudio();clearTimeout(liveTimer);
+ if(mode!=='text'||$('textDisplay').value==='static')return;
+ const interval=number('textInterval');
+ if(!Number.isFinite(interval)||interval<100||interval>5000)throw Error('Use an animation interval from 100 to 5000 milliseconds.');
+ const style=$('textDisplay').value;
+ textAnimationSource=style==='scroll'?scrollingTextSource():contentFrame('text');textAnimationStep=0;
+ const session=++textAnimationSession;
+ textAnimationActive=true;$('textStart').disabled=true;$('textStop').disabled=false;
+ const tick=async()=>{
+  if(session!==textAnimationSession||!textAnimationActive)return;
+  const frame=textAnimationFrame(style,textAnimationSource,textAnimationStep++);
+  drawPixels(frame);
+  $('textAnimationStatus').textContent=(ready?(demo?'Animating · demo · ':'Animating · sending to curtain · '):'Animating · preview only · ')+(style==='scroll'?'scrolling text':'flashing text');
+  try{
+   // Await each frame so slow BLE writes cannot build an animation backlog.
+   if(ready)await paintFrame(frame,()=>session===textAnimationSession);
+  }catch(error){
+   if(session===textAnimationSession){stopTextAnimation();message(error.message,true);$('textAnimationStatus').textContent='Animation stopped after a Bluetooth error.';}
+   return;
+  }
+  if(session===textAnimationSession&&textAnimationActive)textAnimationTimer=setTimeout(tick,interval);
+ };
+ await tick();
+}
+function clearPixels() { const canvas=$('pixelCanvas');canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); }
+function drawPixels(frame) {
+ const canvas=$('pixelCanvas');canvas.width=frame.columns*24;canvas.height=frame.rows*24;
+ const context=canvas.getContext('2d');context.fillStyle='#0c131b';context.fillRect(0,0,canvas.width,canvas.height);
+ const brightness=Number($('brightness').value)/100;
+ for(let y=0;y<frame.rows;y++) for(let x=0;x<frame.columns;x++) {
+  const rgb=frame.pixels[y*frame.columns+x].map(v=>Math.round(v*brightness));
+  context.fillStyle=previewOn?`rgb(${rgb.join(',')})`:'#27323b';context.beginPath();context.arc(x*24+12,y*24+12,6,0,Math.PI*2);context.fill();
+ }
+}
+function rhythmUsesPixels() { return true; }
+const RHYTHM_RGB_COLORS=[
+ [255,0,0],[255,128,0],[255,255,0],[0,255,0],
+ [0,255,255],[0,0,255],[128,0,255]
+];
+// The pixel protocol has hue/brightness fields, not raw RGB channels.
+// Cycle through fixed saturated rainbow codes without recalculating hue.
+const RHYTHM_PAINT_CODES=[1,21,43,85,128,170,191];
+function rhythmWireColor(rgb,brightness){
+ const maximum=Math.max(...rgb);
+ if(!maximum||!brightness)return [0,0];
+ const color=RHYTHM_RGB_COLORS.findIndex(candidate=>candidate.every((value,i)=>value===rgb[i]));
+ if(color<0)throw Error('Unknown Rhythm rainbow color.');
+ return [RHYTHM_PAINT_CODES[color],Math.round(maximum*brightness/100)];
+}
+function rhythmBarCount() { return gridSize().columns; }
+function rhythmPixelOrder(frame){
+ const {columns,rows,wiring}=frame,order=[];
+ // Logical column 1 first, then LEDs/rows 1 through 20 within each column.
+ for(let x=0;x<columns;x++)for(let y=0;y<rows;y++)order.push(y*columns+x);
+ if(!wiring)return order;
+ // Keep the configured physical wiring while ordering logical updates.
+ const logicalToWire=[];
+ toWireOrder(Array.from({length:columns*rows},(_,i)=>i),columns,rows,wiring)
+  .forEach((logical,wire)=>{logicalToWire[logical]=wire;});
+ return order.map(logical=>logicalToWire[logical]);
+}
+function equalizerLevels(spectrum,sampleRate,fftSize,count=rhythmBarCount()){
+ // Log-spaced frequency bands give bass and treble their own bars.
+ const low=50,high=Math.min(12000,sampleRate/2),levels=[];
+ for(let bar=0;bar<count;bar++){
+  const start=Math.max(1,Math.floor(low*(high/low)**(bar/count)*fftSize/sampleRate));
+  const end=Math.min(spectrum.length,Math.max(start+1,Math.ceil(low*(high/low)**((bar+1)/count)*fftSize/sampleRate)));
+  let sum=0;for(let bin=start;bin<end;bin++)sum+=(spectrum[bin]/255)**2;
+  levels.push(end>start?Math.sqrt(sum/(end-start)):0);
+ }
+ const peak=Math.max(...levels);
+ return levels.map(value=>peak>.03?Math.min(1,value*2.5):0);
+}
+function sampleSoundWave(data,columns){
+ let peak=0;for(const value of data)peak=Math.max(peak,Math.abs(value-128));
+ if(!peak)return Array(columns).fill(0);
+ return Array.from({length:columns},(_,x)=>{
+  const index=columns===1?Math.floor(data.length/2):Math.round(x/(columns-1)*(data.length-1));
+  return (data[index]-128)/peak;
+ });
+}
+function waveFrame(energy,phase) {
+ const {columns,rows}=gridSize(),pixels=Array.from({length:columns*rows},()=>[0,0,0]);
+ const center=(rows-1)/2,baseline=rows%2?0:.5;
+ // Advance from column 1 toward the last column, then wrap back to 1.
+ // Audio drives travel speed, never the wave's height.
+ const shift=Math.floor((phase-Math.floor(phase))*columns);
+ for(let x=0;x<columns;x++){
+  const source=(x-shift+columns)%columns;
+  const position=columns===1?.5:source/columns;
+  const extent=baseline+Math.round((.18+.35*Math.abs(Math.sin(position*Math.PI*2)))*(center-baseline));
+  const colorIndex=Math.min(RHYTHM_RGB_COLORS.length-1,Math.floor(source*RHYTHM_RGB_COLORS.length/columns));
+  const color=RHYTHM_RGB_COLORS[colorIndex];
+  for(let y=0;y<rows;y++)if(Math.abs(y-center)<=extent)pixels[y*columns+x]=color.slice();
+ }
+ return {columns,rows,pixels};
+}
+function soundRingFrame(energy,phase,samples=rhythmRingSamples){
+ const {columns,rows}=gridSize(),pixels=[];
+ const volume=Math.max(0,Math.min(1,energy)),intensity=1;
+ const cx=(columns-1)/2,cy=(rows-1)/2,size=Math.min(columns,rows);
+ const limit=(size-1)/2,radius=limit*.42;
+ const spikeLength=Math.max(0,limit-radius-.55)*volume;
+ for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){
+  const dx=x-cx,dy=y-cy,distance=Math.hypot(dx,dy);
+  const angle=((Math.atan2(dy,dx)+Math.PI/2)/(Math.PI*2)+1)%1;
+  const sample=samples.length?samples[Math.min(samples.length-1,Math.floor(angle*samples.length))]:Math.sin(angle*Math.PI*18-phase*Math.PI*2);
+  const extent=radius+.55+Math.min(1,Math.abs(sample))*spikeLength;
+  const lit=intensity>0&&distance>=Math.max(0,radius-.55)&&distance<=extent;
+  const color=RHYTHM_RGB_COLORS[Math.min(RHYTHM_RGB_COLORS.length-1,Math.floor(angle*RHYTHM_RGB_COLORS.length))];
+  pixels.push(lit?color.map(v=>Math.round(v*intensity)):[0,0,0]);
+ }
+ return {columns,rows,pixels};
+}
+function equalizerHeights(levels,pulse,rows,count){
+ const energy=Math.max(0,Math.min(1,pulse));
+ // Actual band strength sets each height; no ranked or fixed minimum bars.
+ return Array.from({length:count},(_,bar)=>Math.round(Math.max(0,Math.min(1,levels[bar]||0))*energy*rows));
+}
+function colorBarsFrame(energy,levels=rhythmBarLevels) {
+ const {columns,rows}=gridSize(),pixels=[],count=rhythmBarCount();
+ const pulse=Math.max(0,Math.min(1,energy));
+ const intensity=1;
+ const heights=equalizerHeights(levels,pulse,rows,count);
+ for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){
+  const bar=Math.min(count-1,Math.floor(x*count/columns));
+  const coverage=y<heights[bar]?intensity:0;
+  // Stable rainbow colors across the columns; only bar tips change.
+  const color=RHYTHM_RGB_COLORS[Math.min(RHYTHM_RGB_COLORS.length-1,Math.floor(bar*RHYTHM_RGB_COLORS.length/count))];
+  pixels.push(color.map(v=>Math.round(v*coverage)));
+ }
+ return {columns,rows,pixels};
+}
+function rhythmIsFlashing(){return $('rhythmStyle').value.startsWith('flash-');}
+function flashingFrame(energy){
+ const style=$('rhythmStyle').value,pulse=Math.max(0,Math.min(1,energy));
+ const content=rhythmFlashContent||contentFrame(style==='flash-text'?'text':'pic');
+ return {...content,pixels:content.pixels.map(rgb=>pulse>.08?rgb.slice():[0,0,0])};
+}
+const RHYTHM_DOTS_PER_STEP=24;
+const RHYTHM_FRAME_INTERVAL=40;
+let rhythmDisplayFrame=null, rhythmColorFrame=null, rhythmColorStep=-1, rhythmDisplayKey='', rhythmDisplayTime=-Infinity;
+function rhythmPixelFrame(energy,phase) {
+ if(rhythmIsFlashing())return flashingFrame(energy);
+ const style=$('rhythmStyle').value,{columns,rows}=gridSize();
+ const key=`${style}:${columns}:${rows}`;
+ const makeFrame=level=>style==='wave'?waveFrame(level,phase):style==='ring'?soundRingFrame(level,phase):colorBarsFrame(level);
+ if(key!==rhythmDisplayKey){
+  rhythmDisplayKey=key;rhythmDisplayFrame=makeFrame(0);rhythmColorFrame=null;rhythmColorStep=-1;rhythmDisplayTime=-Infinity;
+ }
+ const now=performance.now();
+ if(now-rhythmDisplayTime<RHYTHM_FRAME_INTERVAL)return rhythmColorFrame;
+ rhythmDisplayTime=now;
+ const target=makeFrame(energy),pixels=(style==='color-bar'?target:rhythmDisplayFrame).pixels.map(rgb=>rgb.slice());
+ // Preserve the shape with bounded dot additions/removals; recolor lit dots each frame.
+ let added=0,removed=0;
+ for(const index of rhythmPixelOrder(target)){
+  const old=pixels[index],next=target.pixels[index];
+  if(old.every((value,i)=>value===next[i]))continue;
+  const lit=next.some(value=>value>0),wasLit=old.some(value=>value>0);
+  if(lit&&!wasLit&&added>=RHYTHM_DOTS_PER_STEP||!lit&&wasLit&&removed>=RHYTHM_DOTS_PER_STEP)continue;
+  pixels[index]=next.slice();if(lit&&!wasLit)added++;else if(!lit&&wasLit)removed++;
+ }
+ rhythmDisplayFrame={columns,rows,pixels};
+ rhythmColorStep=style==='wave'?rhythmBeatCount%RHYTHM_RGB_COLORS.length:(rhythmColorStep+1)%RHYTHM_RGB_COLORS.length;
+ rhythmColorFrame={columns,rows,pixels:pixels.map(rgb=>{
+  if(!rgb.some(value=>value>0))return [0,0,0];
+  const color=RHYTHM_RGB_COLORS.findIndex(candidate=>candidate.every((value,i)=>value===rgb[i]));
+  return RHYTHM_RGB_COLORS[(color+rhythmColorStep)%RHYTHM_RGB_COLORS.length].slice();
+ })};
+ return rhythmColorFrame;
+}
+function matrixMapFile(){
+ return {format:'surplife-matrix-map',version:1,...matrixFrame()};
+}
+function parseMatrixMap(text){
+ const map=JSON.parse(text);
+ if(!map||map.format!=='surplife-matrix-map'||map.version!==1||map.columns!==20||map.rows!==20||!Array.isArray(map.pixels)||map.pixels.length!==400||!map.pixels.every(rgb=>Array.isArray(rgb)&&rgb.length===3&&rgb.every(value=>Number.isInteger(value)&&value>=0&&value<=255)))
+  throw Error('Choose a valid Surplife 20 × 20 Matrix map saved with Save map.');
+ return {columns:20,rows:20,pixels:map.pixels.map(rgb=>rgb.slice())};
+}
+async function loadMatrixMap(file=$('matrixLoad').files[0]){
+ const version=++matrixLoadVersion;
+ $('matrixLoad').value='';
+ if(!file)return;
+ try{
+  if(file.size>100*1024)throw Error('Choose a Matrix map smaller than 100 KB.');
+  const map=parseMatrixMap(await file.text());
+  if(version!==matrixLoadVersion)return;
+  map.pixels.forEach((rgb,index)=>{
+   matrixPixels[index]=rgb.some(value=>value>0);
+   matrixPixelColors[index]=matrixPixels[index]?rgb:null;
+  });
+  const firstColor=map.pixels.find(rgb=>rgb.some(value=>value>0));
+  if(firstColor){
+   const color='#'+firstColor.map(value=>value.toString(16).padStart(2,'0')).join('');
+   $('color').value=color;$('matrixColor').value=color;
+  }
+  const filename=file.name.replace(/\.json$/i,'.map');
+  if(!Array.from($('matrixFilename').options).some(option=>option.value===filename)){
+   const option=document.createElement('option');option.value=filename;option.textContent=filename;
+   $('matrixFilename').append(option);
+  }
+  $('matrixFilename').value=filename;
+  $('matrixLoadStatus').textContent=file.name+' · 20 × 20 map loaded for editing';
+  change();
+ }catch(error){if(version===matrixLoadVersion)message('Map could not be loaded: '+error.message,true);}
+}
+async function chooseMatrixDirectory(){
+ const handle=await window.showDirectoryPicker({id:'surplife-map',mode:'readwrite'});
+ if(handle.name!=='map')throw Error('Choose this project’s folder named map.');
+ matrixDirectoryHandle=handle;
+ return handle;
+}
+async function saveMatrixMap(){
+ const filename=$('matrixFilename').value,data=JSON.stringify(matrixMapFile(),null,2);
+ try{
+  if(window.showDirectoryPicker){
+   const directory=matrixDirectoryHandle||await chooseMatrixDirectory();
+   const handle=await directory.getFileHandle(filename,{create:true});
+   const writable=await handle.createWritable();await writable.write(data);await writable.close();
+   message('Saved ./map/'+filename+'. Import it in Matrix to edit it or in Pic to display it.');
+  }else{
+   const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+   const link=document.createElement('a');link.href=url;link.download=filename;link.click();
+   setTimeout(()=>URL.revokeObjectURL(url),1000);
+   message('Downloaded '+filename+'. Move it into ./map to keep it with your maps.');
+  }
+ }catch(error){if(error.name!=='AbortError')message('Map could not be saved: '+error.message,true);}
+}
+async function loadPicture(file=$('picture').files[0]) {
+ const version=++pictureVersion;
+ if(!file)return;
+ try {
+  if($('pictureSource').value==='map'){
+   if(file.size>100*1024)throw Error('Choose a Matrix map smaller than 100 KB.');
+   const map=parseMatrixMap(await file.text());
+   if(version!==pictureVersion)return;
+   pictureImage?.close();pictureImage=null;pictureMap=map;
+   $('pictureName').textContent=file.name+' · 20 × 20 Matrix map';change();return;
+  }
+  if(!['image/png','image/jpeg','image/webp','image/gif'].includes(file.type)||file.size>10*1024*1024) throw new Error('Choose a PNG, JPEG, WebP or GIF smaller than 10 MB.');
+  const image=await createImageBitmap(file);
+  if(version!==pictureVersion){image.close();return;}
+  pictureImage?.close();pictureImage=image;pictureMap=null;$('pictureName').textContent=file.name;change();
+ } catch(error) {if(version===pictureVersion)message('File could not be loaded: '+error.message,true);}
+}
+
+// Painting entry uses E2 0D (one 90/hue/intensity triplet per LED).
+// E2 0C then changes selected pixels; its fixed mask is 159 bytes.
+function quantizedPaintFrame(frame,brightness=number('brightness'),animated=false,fullColor=false){
+ if(!Number.isInteger(frame.columns)||!Number.isInteger(frame.rows)||frame.columns<1||frame.rows<1||frame.columns*frame.rows>MAX_LEDS||frame.pixels.length!==frame.columns*frame.rows)throw Error('Invalid LED frame.');
+ const hues=animated?8:16,levels=animated?3:15;
+ const pixels=toWireOrder(frame.pixels,frame.columns,frame.rows,$('wiring').value).map(rgb=>{
+  if(animated&&fullColor)return rhythmWireColor(rgb,brightness);
+  if(fullColor){
+   const [hue,intensity]=rgbWireColor(rgb,brightness);
+   // Painting reserves hue zero for erase; red uses the nearest paint hue, 01.
+   return intensity?[Math.max(1,hue),intensity]:[0,0];
+  }
+  const {hue,value}=rgbToHue(rgb),intensity=Math.round(value*brightness/100*levels)*255/levels;
+  return intensity?[Math.max(1,Math.round((Math.round(hue/360*hues)%hues)*255/hues)),Math.round(intensity)]:[0,0];
+ });
+ return {columns:frame.columns,rows:frame.rows,maskBitOrder:$('maskBitOrder').value,wiring:$('wiring').value,orderedRhythm:animated,pixels};
+}
+function paintPayloads(frame,previous=null,preserveFrame=false){
+ const sameGrid=previous&&previous.columns===frame.columns&&previous.rows===frame.rows&&previous.wiring===frame.wiring&&previous.maskBitOrder===frame.maskBitOrder;
+ const groups=new Map(),payloads=[];
+ if(!sameGrid&&!preserveFrame)payloads.push([0xe2,0x0d,...frame.pixels.flatMap(()=>[0x90,0,0])]);
+ const order=frame.orderedRhythm?rhythmPixelOrder(frame):frame.pixels.map((_,index)=>index);
+ for(const index of order){
+  const [hue,intensity]=frame.pixels[index];
+  const old=sameGrid?previous.pixels[index]:[0,0];
+  if(old[0]===hue&&old[1]===intensity)continue;
+  const key=hue+','+intensity;
+  if(!groups.has(key))groups.set(key,{hue,intensity,mask:new Uint8Array(159)});
+  // The reported row-1 -> LED-8 shift indicates MSB-first masks on this curtain.
+  const bit=frame.maskBitOrder==='lsb'?(index&7):7-(index&7);
+  groups.get(key).mask[index>>3]|=1<<bit;
+ }
+ // Show new colors first, then erase only pixels which actually became black.
+ const colors=Array.from(groups.values()).sort((a,b)=>Number(!a.intensity)-Number(!b.intensity));
+ return [...payloads,...colors.map(g=>[0xe2,0x0c,0x90,g.hue,g.intensity,...g.mask])];
+}
+function sendPaintFrame(next,label,valid,options={}){
+ let working;
+ return sendBatch(()=>{
+  const previous=paintedFrame;
+  // Rhythm never sends a whole-frame reset, even on its first paint.
+  const samePrevious=previous&&previous.columns===next.columns&&previous.rows===next.rows&&previous.wiring===next.wiring&&previous.maskBitOrder===next.maskBitOrder;
+  if(options.preserveFrame&&samePrevious&&options.limitDots!==false){
+   // BLE may lag the preview. Bound changes against the last completed writes too.
+   const pixels=previous.pixels.map(pixel=>pixel.slice());let added=0,removed=0;
+   const order=next.orderedRhythm?rhythmPixelOrder(next):pixels.map((_,index)=>index);
+   for(const index of order){
+    const target=next.pixels[index];if(pixels[index].every((value,i)=>value===target[i]))continue;
+    const lit=target[1]>0,wasLit=pixels[index][1]>0;
+    if(lit&&!wasLit&&added>=RHYTHM_DOTS_PER_STEP||!lit&&wasLit&&removed>=RHYTHM_DOTS_PER_STEP)continue;
+    pixels[index]=target.slice();if(lit&&!wasLit)added++;else if(!lit&&wasLit)removed++;
+   }
+   next={...next,pixels};
+  }
+  let payloads=paintPayloads(next,previous,options.preserveFrame);
+  if(options.rotateColors){
+   const initialization=payloads.filter(payload=>payload[1]===0x0d);
+   const updates=payloads.filter(payload=>payload[1]===0x0c);
+   const start=updates.length?rhythmPaintCursor%updates.length:0;
+   payloads=[...initialization,...updates.slice(start),...updates.slice(0,start)];
+  }
+  const sameGrid=previous&&previous.columns===next.columns&&previous.rows===next.rows&&previous.wiring===next.wiring&&previous.maskBitOrder===next.maskBitOrder;
+  working={...next,pixels:sameGrid?previous.pixels.map(rgb=>rgb.slice()):next.pixels.map(()=>[0,0])};
+  return payloads;
+ },label,valid,()=>{paintedFrame=next;},{...options,onPayload:payload=>{
+  if(payload[1]===0x0d)working.pixels=working.pixels.map(()=>[0,0]);
+  else for(let index=0;index<working.pixels.length;index++){
+   const bit=next.maskBitOrder==='lsb'?(index&7):7-(index&7);
+   if(payload[5+(index>>3)]&(1<<bit))working.pixels[index]=payload.slice(3,5);
+  }
+  if(options.rotateColors&&payload[1]===0x0c)rhythmPaintCursor++;
+  // A superseded frame keeps completed colors. Only failed writes invalidate the mirror.
+  paintedFrame={...working,pixels:working.pixels.map(rgb=>rgb.slice())};
+ }});
+}
+function paintMatrixFrame(frame){
+ const next=quantizedPaintFrame(frame,number('brightness'),false,true);
+ return sendPaintFrame(next,'Matrix paint',()=>true,{withResponse:true,packetDelay:20});
+}
+function paintFrame(frame,valid=()=>true,animated=false,fullColor=false){
+ const next=quantizedPaintFrame(frame,number('brightness'),animated,fullColor);
+ // BLE writes stay sequential; audio uses a short gap and replaces stale frames.
+ return sendPaintFrame(next,'Pixel paint',valid,animated?{packetDelay:2,preserveFrame:true,limitDots:!rhythmIsFlashing()&&$('rhythmStyle').value!=='color-bar'}:{});
+}
+function stopRhythm() {
+ ++rhythmSession;++rhythmRevision;rhythmActive=false;clearTimeout(rhythmTimer);rhythmTimer=null;
+ rhythmStream?.getTracks().forEach(track=>track.stop());rhythmStream=null;
+ if(rhythmSource){try{rhythmSource.disconnect();}catch{}}rhythmSource=null;
+ const context=rhythmContext;rhythmContext=null;if(context) context.close().catch(()=>{});
+ rhythmFlashContent=null;
+ $('audioPlayer').pause();$('beatMeter').value=0;rhythmEnergy=0;rhythmWaveSamples=[];rhythmRingSamples=[];
+ $('rhythmStart').disabled=false;$('rhythmStop').disabled=true;
+ $('rhythmStatus').textContent='Stopped. The curtain keeps its last transmitted setting.';
+ $('curtain').style.opacity='';
+}
+async function startRhythm() {
+ await stopRhythm();const session=++rhythmSession;
+ $('rhythmStart').disabled=true;$('rhythmStop').disabled=false;
+ $('rhythmStatus').textContent='Preparing audio…';
+ try {
+  rhythmDisplayKey='';rhythmBeatCount=0;rhythmPaintCursor=0;rhythmWaveSamples=[];rhythmRingSamples=[];
+  if($('rhythmStyle').value==='color-bar')rhythmBarLevels=Array(rhythmBarCount()).fill(0);
+  const style=$('rhythmStyle').value;
+  rhythmFlashContent=style==='flash-text'?contentFrame('text'):style==='flash-pic'?contentFrame('pic'):null;
+  const rainbow=style!=='flash-text'&&style!=='flash-pic';
+  const pixel=rhythmUsesPixels();
+  // Begin with the wave/ring shape; equalizer bars wait for audio.
+  const initial=pixel?rhythmPixelFrame(0,0):null;
+
+  const Audio=window.AudioContext||window.webkitAudioContext;
+  if(!Audio) throw new Error('Web Audio is unavailable in this browser.');
+  if($('audioSource').value==='file'&&!audioURL) throw new Error('Choose a local audio file first.');
+  const context=new Audio();rhythmContext=context;
+  await context.resume();if(session!==rhythmSession)return;
+  const analyser=context.createAnalyser();analyser.fftSize=$('rhythmStyle').value==='color-bar'?4096:1024;analyser.smoothingTimeConstant=.3;
+  if($('audioSource').value==='mic') {
+   if(!navigator.mediaDevices?.getUserMedia) throw new Error('Microphone access requires HTTPS or localhost and browser support.');
+   const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+   if(session!==rhythmSession){stream.getTracks().forEach(track=>track.stop());return;}
+   rhythmStream=stream;rhythmSource=context.createMediaStreamSource(stream);rhythmSource.connect(analyser);
+   stream.getTracks().forEach(track=>track.addEventListener('ended',()=>{if(rhythmActive){stopRhythm();message('Microphone disconnected.',true);}}));
+  } else {
+   // A fresh audio element permits a fresh MediaElementAudioSourceNode after each stop.
+   const old=$('audioPlayer'),player=old.cloneNode(false);player.src=audioURL;old.replaceWith(player);
+   rhythmSource=context.createMediaElementSource(player);rhythmSource.connect(analyser);analyser.connect(context.destination);
+   player.addEventListener('ended',()=>{if(session===rhythmSession)stopRhythm();});
+   player.addEventListener('error',()=>{if(session===rhythmSession){stopRhythm();message('Audio file could not be decoded. Choose another file.',true);}});await player.play();
+  }
+  if(session!==rhythmSession)return;
+  if(ready&&pixel) {await paintFrame(initial,()=>session===rhythmSession,true,rainbow);if(session!==rhythmSession)return;}
+  rhythmActive=true;rhythmLastSend=-Infinity;rhythmPhase=0;
+  const data=new Uint8Array(analyser.fftSize),spectrum=new Uint8Array(analyser.frequencyBinCount);let average=.015,envelope=0,sendPeak=0,lastBeat=-Infinity,lastTime=performance.now();
+  const tick=()=>{
+   if(session!==rhythmSession||!rhythmActive)return;
+   const now=performance.now(),dt=Math.min(.2,(now-lastTime)/1000);lastTime=now;
+   analyser.getByteTimeDomainData(data);let sum=0;for(const value of data)sum+=((value-128)/128)**2;
+   if($('rhythmStyle').value==='ring')rhythmRingSamples=sampleSoundWave(data,64);
+   const rms=Math.sqrt(sum/data.length),gain=3.4;
+   const beat=rms>Math.max(.012,average*1.275)&&now-lastBeat>180;
+   average=average*.94+rms*.06;
+   if(beat){++rhythmBeatCount;++rhythmRevision;lastBeat=now;envelope=Math.min(1,rms*gain*6);}
+   else envelope*=Math.exp(-dt*7);
+   if($('rhythmStyle').value==='color-bar'){
+    analyser.getByteFrequencyData(spectrum);
+    rhythmBarLevels=equalizerLevels(spectrum,context.sampleRate,analyser.fftSize);
+   }
+   rhythmEnergy=rhythmIsFlashing()?envelope:Math.min(1,Math.max(envelope,rms*gain*2));
+   sendPeak=Math.max(sendPeak*Math.exp(-dt*7),rhythmEnergy);
+   rhythmPhase=(rhythmPhase+dt*($('rhythmStyle').value==='wave'?rhythmEnergy*.6:.15+rhythmEnergy*1.2))%1;$('beatMeter').value=Math.min(1,rms*gain*4);
+   let frame;
+   if(pixel) {try{frame=rhythmPixelFrame(rhythmEnergy,rhythmPhase);drawPixels(frame);}catch(error){stopRhythm();message(error.message,true);return;}}
+   else {$('curtain').style.opacity=Math.max(.02,rhythmEnergy*Number($('brightness').value)/100);}
+   if(ready&&pendingCommands===0&&!rhythmFrameBusy&&now-rhythmLastSend>=RHYTHM_FRAME_INTERVAL) {
+    rhythmLastSend=now;rhythmFrameBusy=true;
+    // Retain beats occurring during a BLE transaction instead of sampling only its tail.
+    const energy=sendPeak;sendPeak=0;
+    const outgoing=pixel?rhythmPixelFrame(energy,rhythmPhase):null;
+    rhythmWrite=run(async()=>{
+     if(session!==rhythmSession)return;
+     try {
+      if(pixel) await paintFrame(outgoing,()=>session===rhythmSession,true,rainbow);
+      else await sendBatch([colorPayload(energy)],'Audio flash',()=>session===rhythmSession);
+     } catch(error){rhythmActive=false;clearTimeout(rhythmTimer);throw error;}
+    }).finally(()=>{rhythmFrameBusy=false;if(!rhythmActive&&session===rhythmSession){stopRhythm();$('rhythmStatus').textContent='Stopped after a Bluetooth error. Reconnect and start again.';}});
+   }
+   $('rhythmStatus').textContent=ready?(demo?'Listening · demo packets · ':'Listening · sending ')+$('rhythmStyle').selectedOptions[0].textContent+' response':'Listening · preview only (curtain disconnected)';
+   rhythmTimer=setTimeout(tick,20);
+  };
+  tick();
+ } catch(error) {if(session===rhythmSession){await stopRhythm();message(error.message,true);$('rhythmStatus').textContent='Could not start: '+error.message;}}
+}
+
+function stopAudio(){stopTextAnimation();stopRhythm();}
+for(let i=0;i<=17;i++)$('effect').add(new Option(`Effect ${String(i).padStart(2,'0')} · 0x${i.toString(16).padStart(2,'0')}`,i));
+document.querySelectorAll('[data-mode]').forEach(button=>button.onclick=()=>selectMode(button.dataset.mode));
+document.querySelectorAll('[role=tab]').forEach((tab,index,tabs)=>tab.onkeydown=event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:tabs.length-1))%tabs.length;tabs[next].focus();selectMode(tabs[next].dataset.mode);});
+for(const [name,color] of [['White','#ffffff'],['Warm amber','#ffc58b'],['Yellow','#ffff00'],['Green','#00ff00'],['Mint','#a8f5cd'],['Sky','#83d8ff'],['Blue','#0000ff'],['Lavender','#b49aff'],['Rose','#ff8fbc'],['Red','#ff0000']]){const button=document.createElement('button');button.style.setProperty('--swatch',color);button.setAttribute('aria-label',name);button.onclick=()=>{$('color').value=color;change();};$('swatches').append(button);}
+$('colorWheel').onpointerdown=event=>{if(event.button!==0)return;event.preventDefault();$('colorWheel').focus();$('colorWheel').setPointerCapture(event.pointerId);pickWheelColor(event);};
+$('colorWheel').onpointermove=event=>{if($('colorWheel').hasPointerCapture(event.pointerId))pickWheelColor(event);};
+$('colorWheel').onpointerup=event=>{if($('colorWheel').hasPointerCapture(event.pointerId))$('colorWheel').releasePointerCapture(event.pointerId);};
+$('colorWheel').onkeydown=event=>{
+ if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key))return;
+ event.preventDefault();let {hue,saturation}=wheelSelection();
+ const step=event.shiftKey?10:2;
+ if(event.key==='ArrowLeft')hue-=step;if(event.key==='ArrowRight')hue+=step;
+ if(event.key==='ArrowUp')saturation+=step/100;if(event.key==='ArrowDown')saturation-=step/100;
+ if(event.key==='Home')saturation=0;if(event.key==='End')saturation=1;
+ chooseWheelColor(hue,saturation);
+};
+for(const id of ['brightness','speed','effect','textInput','textDisplay','textInterval','columns','rows','wiring','maskBitOrder','pictureFit'])$(id).addEventListener('input',()=>{if(['columns','rows','wiring','maskBitOrder','pictureFit'].includes(id))stopAudio();change();});
+$('matrixAllOn').onclick=()=>{matrixPixels.fill(true);matrixPixelColors.fill(null);change();};
+$('matrixAllOff').onclick=()=>{matrixPixels.fill(false);matrixPixelColors.fill(null);change();};
+$('matrixColor').addEventListener('input',()=>{$('color').value=$('matrixColor').value;matrixPixelColors.fill(null);change();});
+$('matrixLoad').onchange=()=>loadMatrixMap();
+$('matrixSave').onclick=()=>saveMatrixMap();
+$('pictureSource').onchange=()=>{++pictureVersion;$('picture').value='';const map=$('pictureSource').value==='map';$('picture').accept=map?'.json,.map,application/json':'image/png,image/jpeg,image/webp,image/gif';$('pictureLabel').textContent=map?'Choose a matrix map':'Choose a picture';};
+$('picture').onchange=()=>loadPicture();
+$('audioSource').onchange=()=>{stopAudio();$('audioFilePanel').hidden=$('audioSource').value!=='file';};
+$('rhythmStyle').onchange=()=>{stopAudio();change();};
+$('audioFile').onchange=()=>{stopAudio();const file=$('audioFile').files[0];if(!file)return;if(file.size>100*1024*1024){message('Choose an audio file smaller than 100 MB.',true);return;}if(audioURL)URL.revokeObjectURL(audioURL);audioURL=URL.createObjectURL(file);$('audioPlayer').src=audioURL;};
+$('textStart').onclick=()=>run(startTextAnimation);$('textStop').onclick=()=>{stopTextAnimation();updatePreview();};
+$('rhythmStart').onclick=startRhythm;$('rhythmStop').onclick=()=>{stopAudio();updatePreview();};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAudio();});
+window.addEventListener('pagehide',()=>{if(audioURL)URL.revokeObjectURL(audioURL);});
+$('live').onchange=()=>{clearTimeout(liveTimer);if($('live').checked&&ready)change();};
+$('mirrorDisplay').onchange=()=>{++rhythmRevision;change();};
+$('connect').onclick=connect;$('disconnect').onclick=()=>{disconnect();message('Disconnected.');};
+$('demo').onclick=()=>{const wasDemo=demo;disconnect();if(wasDemo){message('Demo ended.');return;}demo=true;sequence=0;transport={size:number('packetSize'),continuation:number('continuation')};setReady(true);$('deviceName').textContent='Demo curtain';$('deviceStatus').textContent='Demo only · no device status';message('Demo mode. Controls preview changes and log packets without connecting to Bluetooth.');};
+window.addEventListener('pagehide',disconnect);
+$('apply').onclick=()=>run(apply);$('on').onclick=()=>run(async()=>{stopAudio();clearTimeout(liveTimer);await send([0x71,0x24],'Power on');message('Power-on command written.');});
+$('dark').onclick=()=>{stopAudio();$('brightness').value=0;selectMode('color');clearTimeout(liveTimer);run(apply);};
+$('ping').onclick=()=>run(()=>send(PING,'Status request'));$('sync').onclick=()=>run(()=>send(timePayload(),'Time sync'));
+document.querySelectorAll('[data-pin]').forEach(button=>button.onclick=()=>run(()=>{stopAudio();clearTimeout(liveTimer);const pins=[0,0,0,0,0];pins[Number(button.dataset.pin)]=255;return send([0xe0,0x15,0,0,...pins],'Raw channel test');}));
+$('saveMapping').onclick=()=>run(async()=>{stopAudio();clearTimeout(liveTimer);const order=$('mapping').value;await send([0xe0,0x13,...['R','G','B'].map(c=>order.indexOf(c)),3,4,5],'Channel mapping');await send([0xe0,0x0e,1],'Save calibration');message('Mapping and save commands written.');});
+$('exitCalibration').onclick=()=>run(apply);$('clearLog').onclick=()=>{entries=[];$('log').textContent='Log cleared.';};
+$('downloadLog').onclick=()=>{const url=URL.createObjectURL(new Blob([entries.join('\n')],{type:'text/plain'})),a=document.createElement('a');a.href=url;a.download='Surplife-packets.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+initializeMatrix();selectMode('color');setReady(false);
+if(!window.isSecureContext)message('Bluetooth requires HTTPS or localhost. Run: python3 -m http.server 8000, then open http://localhost:8000/Surplife.html',true);
+else if(!navigator.bluetooth)message('Web Bluetooth is unavailable in this browser. Use a supported Chrome or Edge browser, or explore Try demo.',true);
+</script>
+<script>
+'use strict';
+(() => {
+ const status = document.getElementById('appStatus');
+ const install = document.getElementById('installApp');
+ let installPrompt = null, offlineReady = false;
+ const standalone = window.matchMedia('(display-mode: standalone)');
+ function updateAppStatus() {
+  const installed = standalone.matches || navigator.standalone === true;
+  status.textContent = [
+   installed ? 'Running as Surplife app.' : 'Install from your browser’s app menu.',
+   offlineReady ? 'Available offline.' : 'Offline access becomes available after the first online visit.',
+   navigator.onLine ? '' : 'You are offline; Bluetooth can still connect in a supported browser.'
+  ].filter(Boolean).join(' ');
+ }
+ window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault(); installPrompt = event; install.hidden = false;
+ });
+ install.addEventListener('click', async () => {
+  if (!installPrompt) return;
+  const prompt = installPrompt; installPrompt = null; install.hidden = true;
+  try { await prompt.prompt(); await prompt.userChoice; }
+  catch (error) { status.textContent = 'Use your browser’s app menu to install Surplife.'; console.warn('Install prompt:', error); }
+ });
+ window.addEventListener('appinstalled', () => {
+  installPrompt = null; install.hidden = true; updateAppStatus();
+ });
+ window.addEventListener('online', updateAppStatus);
+ window.addEventListener('offline', updateAppStatus);
+ standalone.addEventListener('change', updateAppStatus);
+ updateAppStatus();
+ if ('serviceWorker' in navigator && window.isSecureContext && /^https?:$/.test(location.protocol)) {
+  navigator.serviceWorker.register('./surplife-sw.js', {scope: './', updateViaCache: 'none'})
+   .then(() => navigator.serviceWorker.ready)
+   .then(() => { offlineReady = true; updateAppStatus(); })
+   .catch(error => {
+    status.textContent = 'Offline setup failed. Reload while online to try again.';
+    console.warn('Surplife offline setup:', error);
+   });
+ } else {
+  status.textContent = 'Installation and offline access require HTTPS or localhost and a browser with service worker support.';
+ }
+})();
+</script></body></html>
